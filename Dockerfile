@@ -13,7 +13,7 @@ RUN if [ -z "$(command -v npm)" ]; then \
     fi \
     && npm --version
 RUN npm install -g pnpm
-RUN git clone --branch wip_add_message_direct --depth 1 https://github.com/virtuelleakademie/chainlit.git
+RUN git clone --branch wip_add_message_direct2 --depth 1 https://github.com/virtuelleakademie/chainlit.git
 RUN mkdir -p chainlit/frontend/dist && mkdir -p chainlit/libs/copilot/dist
 RUN cd chainlit/backend && pip install -e .
 RUN cd chainlit/frontend && pnpm install --no-frozen-lockfile && pnpm run build
