@@ -5,7 +5,7 @@ COPY ./app /usr/app
 COPY ./.env /usr/app
 
 # Install everything required for chainlit custom build (with post authentication).
-RUN curl -L https://deb.nodesource.com/nsolid_setup_deb.sh | bash -s -- 16
+RUN curl -L https://deb.nodesource.com/nsolid_setup_deb.sh | bash -s -- 18
 RUN apt-get update && apt-get install nodejs -y
 RUN node --version
 RUN if [ -z "$(command -v npm)" ]; then \
@@ -13,7 +13,7 @@ RUN if [ -z "$(command -v npm)" ]; then \
     fi \
     && npm --version
 RUN npm install -g pnpm
-RUN git clone --branch wip_add_message_direct2 --depth 1 https://github.com/virtuelleakademie/chainlit.git
+RUN git clone --branch prolific_variant --depth 1 https://github.com/virtuelleakademie/chainlit.git
 RUN mkdir -p chainlit/frontend/dist && mkdir -p chainlit/libs/copilot/dist
 RUN cd chainlit/backend && pip install -e .
 RUN cd chainlit/frontend && pnpm install --no-frozen-lockfile && pnpm run build

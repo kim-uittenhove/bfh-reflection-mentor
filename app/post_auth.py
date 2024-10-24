@@ -6,7 +6,12 @@ from typing import Optional
 from starlette.requests import Request
 import chainlit as cl
 import os
+import logging
 from dotenv import load_dotenv
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+logger.debug("Post auth included")
 
 # Load environment variables from .env file
 load_dotenv()
@@ -26,15 +31,22 @@ def parse_payload_moodle(payload):
 
 # Parse prolific payload.
 def parse_payload_prolific(payload):
-    return cl.User(identifier = f"{payload.study_id}~{payload.prolific_id}", metadata={
-        "user": payload.prolific_id,
+    logger.debug("Parsing prolific payload")
+    return cl.User(identifier = f"{payload.studyId}~{payload.prolificId}", metadata={
+        "user": payload.prolificId,
         "provider": "prolific",
-        "study-id": payload.study_id
+        "studyId": payload.studyId,
+        "exp": payload.exp,
+        "returnUrl": f"https://redcap.epfl.ch/surveys/?prolific_pid={payload.prolificId}&study_id={payload.studyId}&session_id={payload.sessionId}"
     })
 
 # Select parser based on the environment variable - defaults to moodle.
 def get_payload_parser():
     parser_type = os.getenv('PAYLOAD_PARSER', 'moodle')
+
+    # Log the parser being used
+    logger.debug(f"Using {parser_type} parser")
+
     parsers = {
         'moodle': parse_payload_moodle,
         'prolific': parse_payload_prolific
@@ -76,12 +88,9 @@ def post_auth_cb(request: Request) -> Optional[cl.User]:
         # Get the appropriate parser function
         parser = get_payload_parser()
 
-        # Log the parser being used
-        print(f"Using {parser_type} parser")
-
         # Use the parser to process the payload
         return parser(payload)
 
     except:
-        print("JWT decode failed")
+        logger.error("JWT decode failed")
         return None

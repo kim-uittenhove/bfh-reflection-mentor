@@ -90,7 +90,8 @@
                     "reset": "Reset",
                     "cancel": "Cancel",
                     "confirm": "Confirm"
-                }
+                },
+                "returnButton": "Return to survey {{timer}}"
             },
             "threadHistory": {
                 "sidebar": {
