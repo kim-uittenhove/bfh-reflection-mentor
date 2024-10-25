@@ -37,7 +37,7 @@ def parse_payload_prolific(payload):
         "provider": "prolific",
         "studyId": payload.studyId,
         "exp": payload.exp,
-        "returnUrl": f"https://redcap.epfl.ch/surveys/?prolific_pid={payload.prolificId}&study_id={payload.studyId}&session_id={payload.sessionId}"
+        "returnUrl": "https://docs.google.com/document/d/e/2PACX-1vRvyIlu7bCIuXjXQ-v0vn9jzOqATCbINgz8FtsEpdRpgsOBUJqXw4EZyf22Z9heBReDzeKQsTkev7LS/pub"
     })
 
 # Select parser based on the environment variable - defaults to moodle.
